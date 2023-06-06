@@ -2,15 +2,15 @@
 
 namespace App\Entity;
 
-use App\Repository\CategoryRepository;
+use App\Repository\ProductRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=CategoryRepository::class)
+ * @ORM\Entity(repositoryClass=ProductRepository::class)
  */
-class Category
+class Product
 {
     /**
      * @ORM\Id
@@ -25,23 +25,33 @@ class Category
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=500, nullable=true)
      */
     private $description;
 
     /**
-     * @ORM\OneToMany(targetEntity=Product::class, mappedBy="category")
+     * @ORM\Column(type="float")
      */
-    private $products;
+    private $price;
 
     /**
-     * @ORM\OneToMany(targetEntity=Media::class, mappedBy="category")
+     * @ORM\Column(type="boolean")
+     */
+    private $available;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="products")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $category;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Media::class, mappedBy="product")
      */
     private $media;
 
     public function __construct()
     {
-        $this->products = new ArrayCollection();
         $this->media = new ArrayCollection();
     }
 
@@ -67,39 +77,45 @@ class Category
         return $this->description;
     }
 
-    public function setDescription(string $description): self
+    public function setDescription(?string $description): self
     {
         $this->description = $description;
 
         return $this;
     }
 
-    /**
-     * @return Collection<int, Product>
-     */
-    public function getProducts(): Collection
+    public function getPrice(): ?float
     {
-        return $this->products;
+        return $this->price;
     }
 
-    public function addProduct(Product $product): self
+    public function setPrice(float $price): self
     {
-        if (!$this->products->contains($product)) {
-            $this->products[] = $product;
-            $product->setCategory($this);
-        }
+        $this->price = $price;
 
         return $this;
     }
 
-    public function removeProduct(Product $product): self
+    public function isAvailable(): ?bool
     {
-        if ($this->products->removeElement($product)) {
-            // set the owning side to null (unless already changed)
-            if ($product->getCategory() === $this) {
-                $product->setCategory(null);
-            }
-        }
+        return $this->available;
+    }
+
+    public function setAvailable(bool $available): self
+    {
+        $this->available = $available;
+
+        return $this;
+    }
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): self
+    {
+        $this->category = $category;
 
         return $this;
     }
@@ -116,7 +132,7 @@ class Category
     {
         if (!$this->media->contains($medium)) {
             $this->media[] = $medium;
-            $medium->setCategory($this);
+            $medium->setProduct($this);
         }
 
         return $this;
@@ -126,8 +142,8 @@ class Category
     {
         if ($this->media->removeElement($medium)) {
             // set the owning side to null (unless already changed)
-            if ($medium->getCategory() === $this) {
-                $medium->setCategory(null);
+            if ($medium->getProduct() === $this) {
+                $medium->setProduct(null);
             }
         }
 
