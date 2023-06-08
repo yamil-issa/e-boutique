@@ -38,6 +38,9 @@
             "./migrations/.gitignore"
         ]
     },
+    "monolog/monolog": {
+        "version": "2.9.1"
+    },
     "phpunit/phpunit": {
         "version": "9.6",
         "recipe": {
@@ -139,6 +142,9 @@
         "files": [
             "./config/packages/messenger.yaml"
         ]
+    },
+    "symfony/monolog-bridge": {
+        "version": "v5.4.22"
     },
     "symfony/monolog-bundle": {
         "version": "3.8",
