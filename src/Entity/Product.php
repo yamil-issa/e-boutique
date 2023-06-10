@@ -46,8 +46,14 @@ class Product
     private $category;
 
     /**
+     * @ORM\Column(type="string", length=500, nullable=true)
+     */
+    private $img;
+
+    /**
      * @ORM\OneToMany(targetEntity=Media::class, mappedBy="product")
      */
+
     private $media;
 
     public function __construct()
@@ -119,6 +125,21 @@ class Product
 
         return $this;
     }
+
+
+    public function getImg(): ?string
+    {
+        return $this->img;
+    }
+
+    public function setImg(?string $img): self
+    {
+        $this->img = $img;
+
+        return $this;
+    }
+
+
 
     /**
      * @return Collection<int, Media>

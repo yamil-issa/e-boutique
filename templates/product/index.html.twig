@@ -3,15 +3,16 @@
 {% block title %}Hello ProductController!{% endblock %}
 
 {% block body %}
-<h1>Produits<h1>
+<div class="product-container">
+<h1 class="page-title">Produits<h1>
 {% for product in products %}
 
 <h1>{{ product.name }}</h1>
 <p>{{ product.description}}</p>
-<p>{{ product.price}} euros</p>
+<p>{{ product.price |number_format(2, ',', '.')}} €</p>
 <a href={{ path('cart_add', {id: product.id}) }}>Ajouter au panier<a/>
 <hr>
-
+</div>
 {% endfor %}
 
 {% endblock %}
