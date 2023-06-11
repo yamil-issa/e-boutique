@@ -43,6 +43,11 @@ class CustomerAddress
      */
     private $user;
 
+    public function __toString(): string
+    {
+        return $this->address;
+    }
+
     public function getId(): ?int
     {
         return $this->id;

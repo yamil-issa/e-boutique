@@ -1,18 +1,38 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ProductController!{% endblock %}
+{% block title %}Product{% endblock %}
 
 {% block body %}
-<div class="product-container">
+<div class="product-global_container">
+    {% if app.request.query.get('added') %}
+        <div class="alert alert-success" role="alert">
+            Le produit a été ajouté au panier
+        </div>
+    {% endif %}
 <h1 class="page-title">Produits<h1>
-{% for product in products %}
-
-<h1>{{ product.name }}</h1>
-<p>{{ product.description}}</p>
-<p>{{ product.price |number_format(2, ',', '.')}} €</p>
-<a href={{ path('cart_add', {id: product.id}) }}>Ajouter au panier<a/>
-<hr>
+<div class="product_row_container">
+<div class="row">
+    {% for product in products %}
+        <div class="col-md-4">
+            <div class="product_container">
+                <div class="item">
+                    <div class="thumb">
+                        <img class="product_img" src="{{ product.img }}" alt="">
+                    </div>
+                    <div class="down-content">
+                        <p id="product_name">{{ product.name }}</p>
+                        <p>{{ product.description|slice(0, 70) }}</p>
+                        <span>{{ product.price|number_format(2, ',', '.') }} €</span>
+                    </div>
+                    <button type="button" class="btn btn-info"><a href="{{ path('cart_add', {id: product.id}) }}">Ajouter au panier</a></button>
+                </div>
+            </div>
+        </div>
+        {% if loop.index % 3 == 0 %}
+            </div><div class="row">
+        {% endif %}
+    {% endfor %}
 </div>
-{% endfor %}
+</div>
 
 {% endblock %}

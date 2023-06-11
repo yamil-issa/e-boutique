@@ -8,6 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Request;
 
 class CartController extends AbstractController
 {
@@ -21,10 +22,15 @@ class CartController extends AbstractController
     }
 
     #[Route('/cart/add/{id<\d+>}', name: 'cart_add')]
-    public function addToRoute(CartService $cartService, int $id): Response
+    public function addToRoute(CartService $cartService, int $id, Request $request): Response
     {
         $cartService->addToCart($id);
-        return $this->redirectToRoute('cart_index');
+        $referer = $request->headers->get('referer');
+        $referer .= (parse_url($referer, PHP_URL_QUERY) ? '&' : '?') . 'added=1';
+        
+        return $this->redirect($referer);
+
+       
     }
 
     #[Route('/cart/decrease/{id<\d+>}', name: 'cart_decrease')]

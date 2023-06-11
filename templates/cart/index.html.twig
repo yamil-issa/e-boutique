@@ -1,36 +1,41 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello CartController!{% endblock %}
+{% block title %}cart{% endblock %}
 
 {% block body %}
 <div class="cart-container">
-<h1 class="page-title">Mon panier<h1>
-<main class="page-wrapper">
-{% if cart | length > 0 %}
-{% set total = null %}
-<a href={{ path('cart_removeAll') }}>Supprimer mon panier</a>
-{% for item in cart %}
-{% set total = total + (item.product.price * item.quantity) %}
-<h3>{{ item.product.name }}<h3>
-<p>{{ item.product.description }}</p>
-<p>{{ item.product.price |number_format(2, ',', '.') }} €</p>
-<div class="item_quantity_container"> <a href={{ path('cart_decrease', { id: item.product.id }) }}>minus</a><p>{{ item.quantity }}</p> <a href={{ path('cart_add', { id: item.product.id }) }}>plus</a></div>
-<a href={{ path('cart_remove', {id: item.product.id }) }}>Supprimer</a>
-<hr>
-
-{% endfor %}
-<p>Nombre de produits: {{ cart|length}}</p>
-<div class="cart_validation_container">
-<div class="cart_total">Total : {{ total |number_format(2, ',', '.') }} €</div>
-<button type="button" class="btn btn-success"><a href={{ path('order_index') }}>Valider Mon panier</a></button>
-<div>
-<!-- <a href={{ path('cart_removeAll')}}>Supprimer votre panier</a> -->
-{% else %}
-<div class="cart_empty_container">
-<p class="cart_empty_text">Votre panier est vide</p>
-<button type="button" class="btn btn-info"><a href={{ path('shop_index')}}>Voir les produits</a></button>
-</div>
-{% endif %}
-</main>
-</div>
+     <h1 class="page-title">Mon panier<h1>
+     <main class="page-wrapper">
+           {% if cart | length > 0 %}
+           {% set total = null %}
+           <button type="button" class="btn btn-danger"><a href={{ path('cart_removeAll') }}>Vider mon panier</a></button>
+           {% for item in cart %}
+           {% set total = total + (item.product.price * item.quantity) %}
+           <div class="cart_product_flex">
+               <img  src="{{ item.product.img }}" alt="product_image">
+               <div class="cart_product_container">
+                  <h3>{{ item.product.name }}<h3>
+                  <p>{{ item.product.description|slice(0, 70)}} }}</p>
+                  <p>{{ item.product.price |number_format(2, ',', '.') }} €</p>
+                  <div class="item_quantity_container"> <a class="cart_quantity_button" href={{ path('cart_decrease', { id: item.product.id }) }}>-</a><p>{{ item.quantity }}</p> <a class="cart_quantity_button" href={{ path('cart_add', { id: item.product.id }) }}>+</a></div>
+                  <a href={{ path('cart_remove', {id: item.product.id }) }}><span class="material-symbols-outlined">delete</span></a>
+              </div>
+           </div>
+           <hr>
+           
+           {% endfor %}
+           <p>Nombre de produits: {{ cart|length}}</p>
+           <div class="cart_validation_container">
+           <div class="cart_total">Total : {{ total |number_format(2, ',', '.') }} €</div>
+           <button type="button" class="btn btn-success"><a href={{ path('order_index') }}>Valider Mon panier</a></button>
+           <div>
+           <!-- <a href={{ path('cart_removeAll')}}>Supprimer votre panier</a> -->
+           {% else %}
+           <div class="cart_empty_container">
+           <p class="cart_empty_text">Votre panier est vide</p>
+           <button type="button" class="btn btn-info"><a href={{ path('shop_index')}}>Voir les produits</a></button>
+           </div>
+           {% endif %}
+     </main>
+    </div>
 {% endblock %}
