@@ -3,7 +3,7 @@
 ## Fonctionnalités
 - L'utilisateur final pourra naviguer entre catégories de produits et choisir un produit pour le mettre dans son panier : fait
 
-- Lors de la mise en panier du produit ou lors de la commande finale, il pourra ajuster le nombre d'exemplaires du(des) produit(s) choisi(s): fait
+- Lors de la mise en panier du produit ou lors de la commande finale, il pourra ajuster le nombre d'exemplaires du(des) produit(s) choisi(s):fait
 
 - A la visualisation de la commande, le montant de chaque ligne sera affiché: fait
 
@@ -16,4 +16,4 @@ Lorsque l'utilisateur se connecte à la boutique, ses paramètres de connexion l
 
 ### url du site
 
-- 
+- https://shop.gunplarshop.xyz
